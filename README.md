@@ -1,2 +1,2 @@
-# image_AES_GUI
-# image_AES_GUI
+# AES-Image-Encryptor-and-Decryptor
+A Java GUI Applicaion for encrypting and decrypting the colored images

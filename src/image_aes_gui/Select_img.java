@@ -7,6 +7,9 @@ package image_aes_gui;
 
 import static image_aes_gui.aes.generateKey;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -20,6 +23,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
@@ -58,6 +62,9 @@ public class Select_img extends javax.swing.JFrame {
         CTRjRBtn = new javax.swing.JRadioButton();
         encrypt_btn = new javax.swing.JButton();
         errorjLabel = new javax.swing.JLabel();
+        decrypt_btn = new javax.swing.JButton();
+        loadKey_btn = new javax.swing.JButton();
+        clr_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,7 +108,7 @@ public class Select_img extends javax.swing.JFrame {
 
         CTRjRBtn.setText("CTR");
 
-        encrypt_btn.setText("Encrypt&Decrypt Image");
+        encrypt_btn.setText("Encrypt Image");
         encrypt_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 encrypt_btnMouseClicked(evt);
@@ -110,6 +117,42 @@ public class Select_img extends javax.swing.JFrame {
         encrypt_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 encrypt_btnActionPerformed(evt);
+            }
+        });
+
+        decrypt_btn.setText("Decrypt Image");
+        decrypt_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                decrypt_btnMouseClicked(evt);
+            }
+        });
+        decrypt_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                decrypt_btnActionPerformed(evt);
+            }
+        });
+
+        loadKey_btn.setText("Load Key from File");
+        loadKey_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loadKey_btnMouseClicked(evt);
+            }
+        });
+        loadKey_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadKey_btnActionPerformed(evt);
+            }
+        });
+
+        clr_btn.setText("Clear");
+        clr_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clr_btnMouseClicked(evt);
+            }
+        });
+        clr_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clr_btnActionPerformed(evt);
             }
         });
 
@@ -147,8 +190,16 @@ public class Select_img extends javax.swing.JFrame {
                             .addComponent(key_jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(generateKey_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(encrypt_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(encrypt_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(decrypt_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(generateKey_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(loadKey_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(clr_btn)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -168,7 +219,10 @@ public class Select_img extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(imagePathJLabel))
                 .addGap(18, 18, 18)
-                .addComponent(generateKey_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(generateKey_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(loadKey_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clr_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
@@ -180,7 +234,9 @@ public class Select_img extends javax.swing.JFrame {
                     .addComponent(CBCjRBtn)
                     .addComponent(CTRjRBtn))
                 .addGap(18, 18, 18)
-                .addComponent(encrypt_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(encrypt_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                    .addComponent(decrypt_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(errorjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -189,7 +245,8 @@ public class Select_img extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    String filePath;
+    private IvParameterSpec ivParameterSpec = aes.generateIv();
+    String filePath, filePath1;
     private void browse_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browse_btnMouseClicked
         // TODO add your handling code here:
         int com = evt.getClickCount();
@@ -197,7 +254,7 @@ public class Select_img extends javax.swing.JFrame {
         // make an object of the class filechooser
         FileChooser f1 = new FileChooser();
         f1.setTitle("Select Image");
-        
+
         // create an object of JFileChooser class
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -205,16 +262,14 @@ public class Select_img extends javax.swing.JFrame {
         int r = j.showSaveDialog(null);
 
         // if the user selects a file
-        if (r == JFileChooser.APPROVE_OPTION)
-
-        {
+        if (r == JFileChooser.APPROVE_OPTION) {
             // set the label to the path of the selected file
             imagePathJLabel.setText(j.getSelectedFile().getAbsolutePath());
             filePath = j.getSelectedFile().getAbsolutePath();
-        }
-        // if the user cancelled the operation
-        else
+        } // if the user cancelled the operation
+        else {
             imagePathJLabel.setText("the user cancelled the operation");
+        }
 
     }//GEN-LAST:event_browse_btnMouseClicked
 
@@ -230,21 +285,35 @@ public class Select_img extends javax.swing.JFrame {
 //            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-        
+
     }//GEN-LAST:event_generateKey_btnActionPerformed
-SecretKey key;
+    SecretKey key;
     private void generateKey_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateKey_btnMouseClicked
-        // TODO add your handling code here:
+
         try {
             int com = evt.getClickCount();
-            
+
             int n = 128;
             key = generateKey(n);
-            byte[] k = key.getEncoded();
-            key_jLabel.setText(bytesToHex(k));
+            System.out.println(key);
+
+            //save to a file
+            byte[] keyBytes = key.getEncoded();
+            FileOutputStream fileWrite = new FileOutputStream("secretKey.key");
+            fileWrite.write(keyBytes);
+            fileWrite.close();
+
+            key_jLabel.setText(bytesToHex(keyBytes));
+
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }//GEN-LAST:event_generateKey_btnMouseClicked
 
     private void ECBjRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ECBjRBtnActionPerformed
@@ -257,19 +326,17 @@ SecretKey key;
 
     private void encrypt_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encrypt_btnMouseClicked
         // TODO add your handling code here:
-        boolean error=false;
-        System.out.println(ECBjRBtn.isSelected());
-        System.out.println(CBCjRBtn.isSelected());
-        System.out.println(CTRjRBtn.isSelected());
-        if(!(ECBjRBtn.isSelected() | CBCjRBtn.isSelected()|CTRjRBtn.isSelected())){
+        boolean error = false;
+
+        if (!(ECBjRBtn.isSelected() | CBCjRBtn.isSelected() | CTRjRBtn.isSelected())) {
             errorjLabel.setText("plz select mode of encryption");
-            error=true;
+            error = true;
             System.out.println();
-        }else if(null==key){
-            error=true;
+        } else if (null == key) {
+            error = true;
             errorjLabel.setText("plz generate key first");
-        }else if(null==filePath){
-            error=true;
+        } else if (null == filePath) {
+            error = true;
             errorjLabel.setText("plz select image first");
         }
         File inputFile = new File(filePath);
@@ -277,26 +344,18 @@ SecretKey key;
         String algorithm2 = "AES/ECB/PKCS5Padding";
         String algorithm3 = "AES/CTR/PKCS5Padding";
         try {
-        if(ECBjRBtn.isSelected()&&!error){
-            File encryptedFile2 = new File("encrypted_ECB.png");
-            File decryptedFile2 = new File("decrypted_ECB.jpg");
-            aes.ECBencryptFile(algorithm2, key, inputFile, encryptedFile2);
-            aes.ECBdecryptFile(algorithm2, key, encryptedFile2, decryptedFile2);
-        }else if(CBCjRBtn.isSelected()&&!error){
-        File encryptedFile = new File("encrypted_CBC.jpg");
-        File decryptedFile = new File("decrypted_CBC.jpg");
-        IvParameterSpec ivParameterSpec = aes.generateIv();
+            if (ECBjRBtn.isSelected() && !error) {
+                File encryptedFile2 = new File("encrypted_ECB.png");
+                aes.ECBencryptFile(algorithm2, key, inputFile, encryptedFile2);
+            } else if (CBCjRBtn.isSelected() && !error) {
+                File encryptedFile = new File("encrypted_CBC.jpg");
 
-        aes.CBCencryptFile(algorithm, key, ivParameterSpec, inputFile, encryptedFile);
-        aes.CBCdecryptFile(algorithm, key, ivParameterSpec, encryptedFile, decryptedFile); 
-        }else if(CTRjRBtn.isSelected()&&!error){
-        File encryptedFile3 = new File("encrypted_CTR.jpg");
-        File decryptedFile3 = new File("decrypted_CTR.jpg");
-        IvParameterSpec ivParameterSpec = aes.generateIv();
+                aes.CBCencryptFile(algorithm, key, ivParameterSpec, inputFile, encryptedFile);
+            } else if (CTRjRBtn.isSelected() && !error) {
+                File encryptedFile3 = new File("encrypted_CTR.jpg");
 
-        aes.CBCencryptFile(algorithm3, key, ivParameterSpec, inputFile, encryptedFile3);
-        aes.CBCdecryptFile(algorithm3, key, ivParameterSpec,encryptedFile3, decryptedFile3);
-        }
+                aes.CBCencryptFile(algorithm3, key, ivParameterSpec, inputFile, encryptedFile3);
+            }
         } catch (IOException ex) {
             Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
@@ -312,18 +371,121 @@ SecretKey key;
         } catch (IllegalBlockSizeException ex) {
             Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_encrypt_btnMouseClicked
-private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-public static String bytesToHex(byte[] bytes) {
-    char[] hexChars = new char[bytes.length * 2];
-    for (int j = 0; j < bytes.length; j++) {
-        int v = bytes[j] & 0xFF;
-        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+
+    private void decrypt_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decrypt_btnActionPerformed
+
+    }//GEN-LAST:event_decrypt_btnActionPerformed
+
+    private void loadKey_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadKey_btnActionPerformed
+
+    }//GEN-LAST:event_loadKey_btnActionPerformed
+    SecretKey enckey;
+    private void loadKey_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadKey_btnMouseClicked
+        int com = evt.getClickCount();
+        FileChooser f1 = new FileChooser();
+        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int r = j.showSaveDialog(null);
+        if (r == JFileChooser.APPROVE_OPTION) {
+            filePath1 = j.getSelectedFile().getAbsolutePath();
+            System.out.println(filePath1);
+
+        } // if the user cancelled the operation
+        else {
+            key_jLabel.setText("the user cancelled the operation");
+        }
+        try {
+            FileInputStream fileRead = new FileInputStream(filePath1);
+            byte[] loadedKeyBytes = new byte[fileRead.available()];
+            fileRead.read(loadedKeyBytes);
+            fileRead.close();
+
+            // recreate the secret key
+            key = new SecretKeySpec(loadedKeyBytes, "AES");
+            System.out.println(key);
+
+            byte[] k1 = key.getEncoded();
+            System.out.println(new String(k1));
+            key_jLabel.setText(bytesToHex(k1));
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_loadKey_btnMouseClicked
+
+    private void clr_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clr_btnActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_clr_btnActionPerformed
+
+    private void clr_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clr_btnMouseClicked
+           imagePathJLabel.setText("");
+           key_jLabel.setText("");
+    }//GEN-LAST:event_clr_btnMouseClicked
+
+    private void decrypt_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_decrypt_btnMouseClicked
+        boolean error = false;
+        if (!(ECBjRBtn.isSelected() | CBCjRBtn.isSelected() | CTRjRBtn.isSelected())) {
+            errorjLabel.setText("plz select mode of encryption");
+            error = true;
+            System.out.println();
+        } else if (null == key) {
+            error = true;
+            errorjLabel.setText("plz select a key first");
+        } else if (null == filePath) {
+            error = true;
+            errorjLabel.setText("plz select an encrypted image first");
+        }
+        File inputFile = new File(filePath);
+
+        String algorithm = "AES/CBC/PKCS5Padding";
+        String algorithm2 = "AES/ECB/PKCS5Padding";
+        String algorithm3 = "AES/CTR/PKCS5Padding";
+        try {
+            if (ECBjRBtn.isSelected() && !error) {
+                File decryptedFile2 = new File("decrypted_ECB.jpg");
+
+                aes.ECBdecryptFile(algorithm2, key, inputFile, decryptedFile2);
+            } else if (CBCjRBtn.isSelected() && !error) {
+                File decryptedFile = new File("decrypted_CBC.jpg");
+                aes.CBCdecryptFile(algorithm, key, ivParameterSpec, inputFile, decryptedFile);
+            } else if (CTRjRBtn.isSelected() && !error) {
+                File decryptedFile3 = new File("decrypted_CTR.jpg");
+
+                aes.CBCdecryptFile(algorithm3, key, ivParameterSpec, inputFile, decryptedFile3);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchPaddingException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidAlgorithmParameterException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(Select_img.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_decrypt_btnMouseClicked
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
     }
-    return new String(hexChars);
-}
+
     /**
      * @param args the command line arguments
      */
@@ -354,17 +516,21 @@ public static String bytesToHex(byte[] bytes) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             ToggleGroup tg = new ToggleGroup();
+
             public void run() {
                 new Select_img().setVisible(true);
             }
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton CBCjRBtn;
     private javax.swing.JRadioButton CTRjRBtn;
     private javax.swing.JRadioButton ECBjRBtn;
     private javax.swing.JButton browse_btn;
+    private javax.swing.JButton clr_btn;
+    private javax.swing.JButton decrypt_btn;
     private javax.swing.JButton encrypt_btn;
     private javax.swing.JLabel errorjLabel;
     private javax.swing.JButton generateKey_btn;
@@ -374,5 +540,6 @@ public static String bytesToHex(byte[] bytes) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel key_jLabel;
+    private javax.swing.JButton loadKey_btn;
     // End of variables declaration//GEN-END:variables
 }

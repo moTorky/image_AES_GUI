@@ -59,8 +59,18 @@
                           <Component id="key_jLabel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="generateKey_btn" min="-2" pref="170" max="-2" attributes="0"/>
-                                  <Component id="encrypt_btn" min="-2" pref="195" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="encrypt_btn" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="decrypt_btn" min="-2" pref="204" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="generateKey_btn" min="-2" pref="170" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="loadKey_btn" min="-2" pref="190" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="clr_btn" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -90,7 +100,11 @@
                   <Component id="imagePathJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="generateKey_btn" min="-2" pref="48" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="generateKey_btn" pref="48" max="32767" attributes="0"/>
+                  <Component id="loadKey_btn" alignment="0" max="32767" attributes="0"/>
+                  <Component id="clr_btn" alignment="0" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel3" pref="26" max="32767" attributes="0"/>
@@ -104,7 +118,10 @@
                   <Component id="CTRjRBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="encrypt_btn" min="-2" pref="49" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="encrypt_btn" pref="49" max="32767" attributes="0"/>
+                  <Component id="decrypt_btn" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="errorjLabel" min="-2" pref="26" max="-2" attributes="0"/>
               <EmptySpace pref="18" max="32767" attributes="0"/>
@@ -177,7 +194,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="encrypt_btn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Encrypt&amp;Decrypt Image"/>
+        <Property name="text" type="java.lang.String" value="Encrypt Image"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="encrypt_btnMouseClicked"/>
@@ -185,6 +202,33 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="errorjLabel">
+    </Component>
+    <Component class="javax.swing.JButton" name="decrypt_btn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Decrypt Image"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="decrypt_btnMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decrypt_btnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="loadKey_btn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Load Key from File"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="loadKey_btnMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadKey_btnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="clr_btn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clr_btnMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clr_btnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

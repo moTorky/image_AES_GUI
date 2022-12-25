@@ -53,12 +53,6 @@ public class aes {
         FileInputStream inputStream = new FileInputStream(inputFile);
     FileOutputStream outputStream = new FileOutputStream(outputFile);
     int bytesRead;
-//    byte[] imgHeader = new byte[40];
-//    while ((bytesRead = inputStream.read(imgHeader)) != -1) {
-//        if (imgHeader != null) {
-//            outputStream.write(imgHeader);
-//        }
-//    }
     byte[] imgHeader = new byte[636];
      int l=  inputStream.read(imgHeader,0,imgHeader.length);
     outputStream.write(imgHeader);
@@ -77,12 +71,6 @@ public class aes {
     if (outputBytes != null) {
         outputStream.write(outputBytes);
     }
-   //trying to appaend to encrypted file to be readable
-//    outputStream.write(PNGfooter);
-//    outputStream.read(imgHeader,0,imgHeader.length);
-//    for (int i = 0; i < imgHeader.length; i++) {
-//        System.out.print((char)imgHeader[i]);
-//    }
     inputStream.close();
     outputStream.close();
 }
